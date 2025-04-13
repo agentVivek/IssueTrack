@@ -3,7 +3,7 @@ import { deleteIssue, getAllIssues, getIssue, reportIssue, updateIssue } from ".
 import protectRoutes from "../middlewares/protectRoutes.js";
 const router = express.Router();
 
-router.get('/',protectRoutes, getAllIssues);
+router.get('/', getAllIssues);
 router.post('/',protectRoutes, reportIssue);
 
 router.get('/:id', protectRoutes, getIssue);

@@ -15,7 +15,7 @@ const createSolution = async (req, res) => {
         return res.status(500).json({error: "Server side error"});
     }
 }
- 
+  
 const getSolution = async (req, res) => {
     try{
         const { issue_id } = req.params;

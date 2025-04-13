@@ -50,7 +50,7 @@ const login = async (req, res) => {
         }
         generateJWTandSetCookie(rows[0].id, res);
         return res.status(201).json({
-            id: rows[0].id,
+            id: rows[0].id, 
             name: rows[0].name,
             admission_number: rows[0].admission_number,
             gender: rows[0].gender,
@@ -66,9 +66,9 @@ const logout = async (req, res) => {
     try{
         await res.clearCookie("jwtCookie");
         return res.status(200).json({ message: "Logged out successfully"});
-    } catch(error){
-        console.log("Error in logout controller", error);
-        return res.status(500).json({error: "server side error in logout"});
+    } catch(err){
+        console.log("Error in logout controller", err);
+        return res.status(500).json({error: "Internal Server Error"});
     }
 }
 

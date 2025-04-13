@@ -1,5 +1,7 @@
 // App.jsx
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 function App() {
   const [stats, setStats] = useState({
@@ -8,20 +10,31 @@ function App() {
     resolved: 0,
   });
 
-  useEffect(() => {
-    // Simulate API call – replace with your actual fetch logic
-    setStats({
-      total: 120,
-      open: 45,
-      resolved: 75,
-    });
+  useEffect( () => {
+      const getData = async () => {
+        try{
+          const res = await fetch("/api/issues/");
+          const data = await res.json();
+          if(data.error){
+            throw new Error(data.error);
+          }
+          let currentTotal = data.length, currentOpen = 0, currentResolved = 0;
+          data.map((issue) => {
+            if(issue.status === 'open') currentOpen++;
+            if(issue.status === 'resolved') currentResolved++;
+          })
+          console.log(data);
+          setStats({
+            total: currentTotal,
+            open: currentOpen,
+            resolved: currentResolved,
+          });
+        } catch(error){
+          toast.error(error.message);
+        }
+      }
+      getData();
   }, []);
-
-
-  const handleViewAllIssues = () => {
-    // Implement navigation to your issues page
-    console.log("View all issues clicked");
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-12">
@@ -60,13 +73,19 @@ function App() {
           </div>
         </div>
 
-        <div className="flex justify-center mb-12">
-          <button
-            onClick={handleViewAllIssues}
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg shadow-md transition-colors duration-200"
+        <div className="flex justify-center space-x-10">
+          <Link
+            to='/register'
+            className="inline-block bg-blue-600 hover:bg-blue-900 text-white font-medium py-3 px-8 rounded-lg cursor-pointer"
           >
-            View All Issues
-          </button>
+            Register
+          </Link>
+          <Link
+            to="/login"
+            className="inline-block bg-blue-600 hover:bg-blue-900 text-white font-medium py-3 px-8 rounded-lg cursor-pointer"
+          >
+            Login
+          </Link> 
         </div> 
         
       </div>

@@ -3,14 +3,14 @@ import pool from "../database/db.js";
 const getAllIssues = async (req, res) => {
     try{
         const query = "SELECT * FROM issues ORDER BY created_at DESC";
-        const { rows } = await pool.query(query);
+        const { rows } = await pool.query(query); 
         return res.status(200).json(rows);
     } catch(error){
         console.log("Error in issue Controller", error);
         return res.status(500).json({error: "Server side error in fetching issues"});
     }
 } 
-
+ 
 const reportIssue = async (req, res) => {
     try{
         const {title, description, user_id} = req.body;
@@ -27,7 +27,15 @@ const reportIssue = async (req, res) => {
 const getIssue = async (req, res) => {
     try{
         const {id : issues_id } = req.params;    
-        const query = `SELECT * FROM issues WHERE id = $1`;
+        // const query = `SELECT * FROM issues WHERE id = $1`;
+        const query =  `
+        SELECT 
+          issues.*, 
+          users.name AS created_by
+        FROM issues
+        LEFT JOIN users ON issues.user_id = users.id
+        WHERE issues.id = $1
+      `;;
         const { rows } = await pool.query(query, [issues_id]);
         if(rows.length === 0){
             return res.status(400).json({ error: "Invalid issue ID" });
@@ -36,7 +44,7 @@ const getIssue = async (req, res) => {
     } catch (error){
         console.log("Error in issueController", error.message);
         return res.status(500).json({error: "Server side error"});
-    }
+    } 
 }
 
 const updateIssue = async (req, res) => {

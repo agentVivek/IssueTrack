@@ -1,8 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const IssueCard = ({ issue }) => {
+    const navigate = useNavigate();
+    const handleClick = ()=>{
+        navigate(`/issues/${issue.id}`);
+    }
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 transition-all hover:shadow-lg hover:scale-[1.02] duration-200 ease-in-out">
+    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 transition-all hover:shadow-lg hover:scale-[1.02] duration-200 ease-in-out" onClick={handleClick} >
     <h2 className="text-xl font-semibold text-gray-800 mb-2">{issue.title}</h2>
     <p className="text-sm text-gray-600 mb-4 line-clamp-3">{issue.description}</p>
 

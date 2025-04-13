@@ -12,7 +12,7 @@ const SolutionForm = () => {
     
         try {
             setSubmitting(true);
-            await axios.post(`/api/issues/${id}/solution`, {
+            const res = await fetch(`/api/issues/${id}/solution`, {
             solution: solution.trim(),
             });
     
@@ -25,7 +25,7 @@ const SolutionForm = () => {
             setSubmitting(false);
         }
     };
-    
+     
     return(
         <div className="max-w-3xl mx-auto p-6 md:p-8 border-t border-gray-200 pt-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Provide a Solution</h2>

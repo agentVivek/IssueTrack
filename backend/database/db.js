@@ -35,7 +35,7 @@ const createTables = async () => {
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     `;
-    
+     
     const createSolutionsTable = `
         CREATE TABLE IF NOT EXISTS solutions (
             id SERIAL PRIMARY KEY,
