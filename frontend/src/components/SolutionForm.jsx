@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const SolutionForm = () => {
+const SolutionForm = ({issueId}) => {
     
     const [solution, setSolution] = useState('');
     const [submitting, setSubmitting] = useState(false);
@@ -9,13 +9,20 @@ const SolutionForm = () => {
     const handleSolutionSubmit = async (e) => {
         e.preventDefault();
         if (!solution.trim()) return;
-    
         try {
             setSubmitting(true);
-            const res = await fetch(`/api/issues/${id}/solution`, {
-            solution: solution.trim(),
+            const description = solution.trim();
+            const res = await fetch(`/api/solution/${issueId}`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({description})
             });
-    
+            const data = await res.json();
+            if(data.error){
+                throw new Error(data.error);
+            }
             setSubmitMessage('✅ Solution submitted successfully.');
             setSolution('');
         } catch (err) {

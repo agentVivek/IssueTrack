@@ -21,7 +21,7 @@ const createTables = async () => {
             profilePic VARCHAR(255) NOT NULL,
             role VARCHAR(50) DEFAULT 'user',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
+        ); 
     `;
     
     const createIssuesTable = `

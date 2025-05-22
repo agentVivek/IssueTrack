@@ -2,7 +2,7 @@ import { useContext } from "react";
 import toast from "react-hot-toast";
 import { BiLogOut } from "react-icons/bi";
 import { authContext } from "../context/authContext";
-
+ 
 const LogoutButton = () => {
     const { setAuthUser } = useContext(authContext);
     const logout = async ()=>{

@@ -13,6 +13,6 @@ const Issue = () => {
     <SolutionForm issueId={id}/>
     </>
   )
-}; 
+};  
 
 export default Issue;

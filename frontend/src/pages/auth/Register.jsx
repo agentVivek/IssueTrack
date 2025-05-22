@@ -13,7 +13,7 @@ const Register = () => {
     admission_number: '',
     password: '',
     confirmPassword: '',
-    gender: ''
+    gender: '' 
   });
  
   const [error, setError] = useState('');

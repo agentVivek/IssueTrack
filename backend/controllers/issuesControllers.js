@@ -2,7 +2,13 @@ import pool from "../database/db.js";
 
 const getAllIssues = async (req, res) => {
     try{
-        const query = "SELECT * FROM issues ORDER BY created_at DESC";
+        // const query = "SELECT * FROM issues ORDER BY created_at DESC";
+        const query =
+         `SELECT issues.*, 
+         users.name AS created_by
+         FROM issues
+         LEFT JOIN users ON issues.user_id = users.id 
+         ORDER BY created_at DESC`;
         const { rows } = await pool.query(query); 
         return res.status(200).json(rows);
     } catch(error){
@@ -22,7 +28,7 @@ const reportIssue = async (req, res) => {
         console.log("Error in issue Controller", error.message);
         return res.status(500).json({error: "Server side error in reporting issues"});
     }
-}
+} 
 
 const getIssue = async (req, res) => {
     try{

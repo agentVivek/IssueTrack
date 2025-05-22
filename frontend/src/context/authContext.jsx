@@ -18,7 +18,7 @@ function AuthProvider({children}) {
             {children}
         </authContext.Provider>
     )
-}
+} 
 
 export default AuthProvider;
 export {authContext};
