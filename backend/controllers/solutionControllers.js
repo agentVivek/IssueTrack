@@ -1,10 +1,11 @@
 import pool from "../database/db.js";
 
 const createSolution = async (req, res) => {
-    try{
+    try{ 
         if(req.user.role !== "admin"){
             return res.status(400).json({ message: "Access Denied!"});
         } 
+        
         const { issue_id } = req.params;
         const { description } = req.body;
         const createSolutionQuery = "INSERT INTO solutions (issue_id, user_id, description) VALUES ($1, $2, $3) RETURNING *";
@@ -14,7 +15,7 @@ const createSolution = async (req, res) => {
         console.log("Error in solution controller", error);
         return res.status(500).json({error: "Server side error"});
     }
-}
+} 
   
 const getSolution = async (req, res) => {
     try{
@@ -30,5 +31,6 @@ const getSolution = async (req, res) => {
         return res.status(500).json({error: "Server side error"});
     }
 }
+
 
 export { createSolution, getSolution}

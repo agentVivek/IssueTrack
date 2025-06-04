@@ -31,7 +31,7 @@ const IssueDetails = ({id}) => {
         if (!issue) return null;    
     
         return (
-        <div className="max-w-3xl mx-auto p-6 md:p-8 bg-white rounded-2xl shadow-lg border border-gray-200">
+        <div className=" max-w-3xl mx-auto p-6 md:p-8 bg-white shadow-lg border-gray-200 bg-radial-[at_50%_75%] from-sky-100  to-blue-400 to-70% rounded-2xl ">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">{issue.title}</h1>
         <p className="text-gray-700 text-base mb-6 leading-relaxed">{issue.description}</p>
     
@@ -60,7 +60,7 @@ const IssueDetails = ({id}) => {
                 {new Date(issue.updated_at).toLocaleString()}
             </div>
             )}
-        </div>
+        </div> 
     </div>
     )
 }

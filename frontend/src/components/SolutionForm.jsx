@@ -7,11 +7,11 @@ const SolutionForm = ({issueId}) => {
     const [submitMessage, setSubmitMessage] = useState('');
 
     const handleSolutionSubmit = async (e) => {
-        e.preventDefault();
-        if (!solution.trim()) return;
-        try {
+        // e.preventDefault();
+        // if (!solution.trim()) return;
+        try { 
             setSubmitting(true);
-            const description = solution.trim();
+            const description = solution;
             const res = await fetch(`/api/solution/${issueId}`, {
             method: 'POST',
             headers: { 
@@ -39,7 +39,7 @@ const SolutionForm = ({issueId}) => {
 
         <form onSubmit={handleSolutionSubmit} className="space-y-4">
         <textarea
-            className="w-full min-h-[120px] p-4 border border-gray-300 rounded-lg text-sm text-gray-800 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full min-h-[140px] p-4 border border-gray-300 rounded-lg text-sm text-gray-800 placeholder-gray-500 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Write your solution here..."
             value={solution}
             onChange={(e) => setSolution(e.target.value)}
@@ -47,7 +47,7 @@ const SolutionForm = ({issueId}) => {
 
         <button
             type="submit"
-            className="inline-block px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 transition disabled:opacity-50"
+            className="rounded-3xl bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%  text-purple-200 px-5 py-3 transform hover:scale-105 disabled:opacity-50"
             disabled={submitting}
         >
             {submitting ? 'Submitting...' : 'Submit Solution'}

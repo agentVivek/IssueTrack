@@ -79,7 +79,7 @@ const updateIssue = async (req, res) => {
         return res.status(500).json({error: "Servers side error"});
     }
 }
-
+ 
 const deleteIssue = async (req, res) => {
     try{
         const { id: issue_id } = req.params;

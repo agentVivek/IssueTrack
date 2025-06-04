@@ -1,7 +1,7 @@
-// App.jsx
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import "../../index.css";
 
 function App() {
   const [stats, setStats] = useState({
@@ -37,15 +37,15 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 py-12">
+    <div className="bg-line min-h-screen bg-gradient-to-br from-[#009BF3] to-gray-200 py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <header className="mb-10 text-center">
           <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-800">
-            Issue Tracker Dashboard
+            <span className="bg-[linear-gradient(270deg,#DF8908_10%,#B415FF_100%)] bg-clip-text text-transparent">Issue Tracker</span> Dashboard
           </h1>
           <p className="mt-4 text-lg text-gray-600">
-            Monitor and manage your issues with style.
+            Your College help desk, online.
           </p>
         </header>
 
@@ -76,13 +76,13 @@ function App() {
         <div className="flex justify-center space-x-10">
           <Link
             to='/register'
-            className="inline-block bg-blue-600 hover:bg-blue-900 text-white font-medium py-3 px-8 rounded-lg cursor-pointer"
+            className="inline-block bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%  text-white font-medium py-3 px-8 rounded-lg cursor-pointer"
           >
             Register
           </Link>
           <Link
             to="/login"
-            className="inline-block bg-blue-600 hover:bg-blue-900 text-white font-medium py-3 px-8 rounded-lg cursor-pointer"
+            className="inline-block bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%  text-white font-medium py-3 px-8 rounded-lg cursor-pointer"
           >
             Login
           </Link> 

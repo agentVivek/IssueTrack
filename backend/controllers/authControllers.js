@@ -21,7 +21,7 @@ const register = async (req, res) => {
             const values = [name, admission_number, hashedPassword, gender, profilePic];
             try{
                 const { rows } = await pool.query(query, values);
-                generateJWTandSetCookie(rows[0].id, res);
+                generateJWTandSetCookie(rows[0].id, res); 
                 return res.status(201).json({
                     id: rows[0].id,
                     name: rows[0].name,
@@ -55,6 +55,7 @@ const login = async (req, res) => {
             admission_number: rows[0].admission_number,
             gender: rows[0].gender,
             profilePic: rows[0].profilePic,
+            role: rows[0].role
         })
     } catch(error){
         console.log("Error in login controller", error);

@@ -4,6 +4,7 @@ import GenderCheckbox from './GenderCheckbox';
 import toast from 'react-hot-toast';
 import { authContext } from '../../context/authContext';
 
+
 const Register = () => {
 
   const { setAuthUser } = useContext(authContext);
@@ -56,67 +57,144 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-semibold mb-6 text-center">Create an Account</h2>
+    // <div className="min-h-screen flex items-center justify-center bg-gray-100 ">
+    //   <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+    //     <h2 className="text-2xl font-semibold mb-6 text-center">Create an Account</h2>
 
-        {error && <p className="text-red-600 mb-4 text-center">{error}</p>}
+    //     {error && <p className="text-red-600 mb-4 text-center">{error}</p>}
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className="w-full mb-4 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 "
-        />
-        <input
-          type="text"
-          name="admission_number"
-          placeholder="Admission Number"
-          value={formData.admission_number}
-          onChange={handleChange}
-          required
-          className="w-full mb-4 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          className="w-full mb-4 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          required
-          className="w-full mb-6 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <GenderCheckbox onCheckBoxChange={handleCheckBoxChange} selectedGender={formData.gender}/>
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
-        >
-          Register
-        </button>
+    //     <input
+    //       type="text"
+    //       name="name"
+    //       placeholder="Full Name"
+    //       value={formData.name}
+    //       onChange={handleChange}
+    //       required
+    //       className="w-full mb-4 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 "
+    //     />
+    //     <input
+    //       type="text"
+    //       name="admission_number"
+    //       placeholder="Admission Number"
+    //       value={formData.admission_number}
+    //       onChange={handleChange}
+    //       required
+    //       className="w-full mb-4 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+    //     />
+    //     <input
+    //       type="password"
+    //       name="password"
+    //       placeholder="Password"
+    //       value={formData.password}
+    //       onChange={handleChange}
+    //       required
+    //       className="w-full mb-4 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+    //     />
+    //     <input
+    //       type="password"
+    //       name="confirmPassword"
+    //       placeholder="Confirm Password"
+    //       value={formData.confirmPassword}
+    //       onChange={handleChange}
+    //       required
+    //       className="w-full mb-6 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+    //     />
+    //     <GenderCheckbox onCheckBoxChange={handleCheckBoxChange} selectedGender={formData.gender}/>
+    //     <button
+    //       type="submit"
+    //       className="w-full bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
+    //     >
+    //       Register
+    //     </button>
 
-        <Link 
-            className="mt-4 text-center text-sm text-gray-600" 
-            to="/login"
-        >
-          Already have an account?{' '}
-          <span className="text-blue-600 cursor-pointer hover:underline">
-            Login
-          </span>
-        </Link>
-      </form>
-    </div>
+    //     <Link 
+    //         className="mt-4 text-center text-sm text-gray-600" 
+    //         to="/login"
+    //     >
+    //       Already have an account?{' '}
+    //       <span className="text-blue-600 cursor-pointer hover:underline">
+    //         Login
+    //       </span>
+    //     </Link>
+    //   </form>
+    // </div>
+    <div
+  className="min-h-screen flex items-center justify-center bg-gray-100">
+  <form
+    onSubmit={handleSubmit}
+    className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md"
+  >
+    <h2 className="text-2xl font-semibold mb-6 text-center text-[#333333]">
+      Create an Account
+    </h2>
+
+    {error && (
+      <p className="mb-4 text-center text-yellow-600">
+        {error}
+      </p>
+    )}
+
+    <input
+      type="text"
+      name="name"
+      placeholder="Full Name"
+      value={formData.name}
+      onChange={handleChange}
+      required
+      className="w-full mb-4 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007BFF] text-[#333333]"
+    />
+    <input
+      type="text"
+      name="admission_number"
+      placeholder="Admission Number"
+      value={formData.admission_number}
+      onChange={handleChange}
+      required
+      className="w-full mb-4 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007BFF] text-[#333333]"
+    />
+    <input
+      type="password"
+      name="password"
+      placeholder="Password"
+      value={formData.password}
+      onChange={handleChange}
+      required
+      className="w-full mb-4 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007BFF] text-[#333333]"
+    />
+    <input
+      type="password"
+      name="confirmPassword"
+      placeholder="Confirm Password"
+      value={formData.confirmPassword}
+      onChange={handleChange}
+      required
+      className="w-full mb-6 p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#007BFF] text-[#333333]"
+    />
+
+    <GenderCheckbox
+      onCheckBoxChange={handleCheckBoxChange}
+      selectedGender={formData.gender}
+    />
+
+    <button
+      type="submit"
+      className="w-full py-3 rounded-xl transition bg-[#007BFF] hover:bg-[#006ae6] text-white"
+    >
+      Register
+    </button>
+
+    <Link
+      to="/login"
+      className="mt-4 block text-center text-sm text-[#333333]"
+    >
+      Already have an account?{' '}
+      <span className="text-[#007BFF] hover:underline cursor-pointer">
+        Login
+      </span>
+    </Link>
+  </form>
+</div>
+
   );
 };
 
