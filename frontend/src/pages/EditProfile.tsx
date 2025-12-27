@@ -1,5 +1,5 @@
 import React, { useState, type ChangeEvent, type FormEvent } from 'react';
-import { Camera, Save, X, User, Mail, Building, Phone, AlertCircle } from 'lucide-react';
+import { Camera, Save, User, Mail, Building, Phone} from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // Define the shape of user data
