@@ -5,7 +5,9 @@ import Navbar from './components/Navbar.tsx';
 import Report from './pages/Report.tsx';
 import Home from "./pages/Home.tsx";
 import Issues from './pages/Issues.tsx';
-import IssueDetails from './pages/Issue.tsx';
+import IssueDetails from './pages/IssueDetails.tsx';
+import Profile from './pages/Profile.tsx';
+import EditProfile from './pages/EditProfile.tsx';
 
 const App: React.FC = () => {
   return (
@@ -16,6 +18,8 @@ const App: React.FC = () => {
         <Route path='/report' element={<Report/>} />
         <Route path='/issues' element={<Issues/>} />
         <Route path='/issues/:id' element={<IssueDetails/>} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/editProfile' element={<EditProfile />}/>
         </Routes>
       <Footer />
     </div>

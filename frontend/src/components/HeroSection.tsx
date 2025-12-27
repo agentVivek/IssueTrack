@@ -1,6 +1,8 @@
 import { AlertTriangle, CheckCircle, Users, Clock, Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const HeroSection: React.FC = () => {
+
   return (
     <div className="w-full flex flex-col font-sans">
       
@@ -18,10 +20,10 @@ const HeroSection: React.FC = () => {
         </p>
 
         {/* Call to Action Button */}
-        <button className="group relative inline-flex items-center gap-2 bg-[#2e3470] hover:bg-[#3b4285] text-white px-8 py-3 rounded-lg text-lg font-semibold shadow-lg shadow-indigo-900/30 transition-all duration-300 transform hover:-translate-y-1">
+        <Link to='/report' className="group relative inline-flex items-center gap-2 bg-[#2e3470] hover:bg-[#3b4285] text-white px-8 py-3 rounded-lg text-lg font-semibold shadow-lg shadow-indigo-900/30 transition-all duration-300 transform hover:-translate-y-1">
           <Plus size={20} className="group-hover:rotate-90 transition-transform duration-300" />
           Report an Issue
-        </button>
+        </Link>
       </div>
 
       {/* --- STATS SECTION --- */}

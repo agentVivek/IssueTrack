@@ -17,7 +17,7 @@ const IssueDetails: React.FC = () => {
   // --- Mock Data for a Single Issue ---
   // In a real app, you would fetch this based on the 'id'
   const issue = {
-    id: 1,
+    id: {id},
     title: "Electricity pole down",
     description: "The electricity pole near the main crossing has been leaning dangerously for the past 3 days. Wires are hanging low and posing a threat to pedestrians and vehicles. Please fix this immediately before an accident happens.",
     status: "OPEN",
@@ -104,7 +104,7 @@ const IssueDetails: React.FC = () => {
                 <img 
                   src={issue.images[0]} 
                   alt="Issue Evidence" 
-                  className="w-full h-auto max-h-[500px] object-contain mx-auto"
+                  className="w-full h-auto max-h-125 object-contain mx-auto"
                 />
               </div>
             </div>
