@@ -11,6 +11,7 @@ export interface Issue {
   zone: string;
   reporter: string;
   timeElapsed: string;
+  timestamp: number;
   upvotes: number;
   downvotes: number;
   commentsCount: number;
@@ -26,6 +27,7 @@ const sampleIssues: Issue[] = [
     zone: "Rupnarayanpur, Kharagpur-I, Paschim Medinipur",
     reporter: "Rajesh Kumar",
     timeElapsed: "about 5 hours ago",
+    timestamp: new Date().getTime(),
     upvotes: 12,
     downvotes: 1,
     commentsCount: 3,
@@ -40,6 +42,7 @@ const sampleIssues: Issue[] = [
     zone: "Railway Station Road, ISM",
     reporter: "Ashwani Pathak",
     timeElapsed: "3 days ago",
+    timestamp: new Date().getTime(),  
     upvotes: 5,
     downvotes: 0,
     commentsCount: 1,
