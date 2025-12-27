@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 const Navbar: React.FC = () => {
     const [displaySidebar, setDisplaySidebar] = useState<boolean>(false);
+    const [displayProfileMenu, setDisplayProfileMenu] = useState<boolean>(false);
 
   return (
     <div className='flex justify-between items-center py-5 border-b border-gray-200'>
@@ -34,8 +35,8 @@ const Navbar: React.FC = () => {
         <div className='flex gap-6 items-center '>
             <Link to='/collection'><img src={assets.search_icon} className='cursor-pointer w-5'/></Link>
             <div className='group relative'> 
-                <img src={assets.profile_icon} className='cursor-pointer w-5'/>
-                <div className='group-hover:block hidden absolute right-0 pt-4 text-gray-600'>
+                <img src={assets.profile_icon} className='cursor-pointer w-5' onClick={()=>{setDisplayProfileMenu(!displayProfileMenu)}}/>
+                <div className={`absolute right-0 pt-4 text-gray-600 ${displayProfileMenu? 'group-hover:block':'hidden'}`}>
                     <div className='flex flex-col items-center gap-2 bg-slate-300 w-36 rounded-xl py-4'>
                         <p className='hover:text-black cursor-pointer'>Profile</p>
                         {/* <p className='hover:text-black cursor-pointer'>Orders</p> */}
@@ -43,10 +44,10 @@ const Navbar: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <Link to='/cart' className='relative'>
-                <img className='cursor-pointer w-5'/>
+            {/* <Link to='/cart' className='relative'> */}
+                {/* <img className='cursor-pointer w-5'/> */}
                 {/* <p className='absolute right-[-5px] bottom-[-7px] text-center bg-black text-white rounded-full leading-4 text-[8px] w-4'>{getCartCount()}</p> */}
-            </Link>
+            {/* </Link> */}
             <img onClick={()=>{setDisplaySidebar(true)}} src={assets.menu_icon} className={`size-7 md:hidden ${displaySidebar ? 'hidden' : ''}`} />
         </div>
         {/* sidebar menu */}
