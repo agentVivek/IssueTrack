@@ -1,75 +1,181 @@
-import {Link, NavLink } from 'react-router-dom'
-import {assets} from '../assets/assets.ts'
-import { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Search, User, Menu, LogOut, ChevronLeft } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
-    const [displaySidebar, setDisplaySidebar] = useState<boolean>(false);
-    const [displayProfileMenu, setDisplayProfileMenu] = useState<boolean>(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const profileRef = useRef<HTMLDivElement>(null);
+
+//   Close profile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const navLinks = [
+    { name: 'HOME', href: '/' },
+    { name: 'REPORT', href: '/report' },
+    { name: 'ISSUES', href: '/issues' },
+    { name: 'CONTACT', href: '/contact' },
+  ];
 
   return (
-    <div className='flex justify-between items-center py-5 border-b border-gray-200'>
-        <Link to='/'>
-        <img className='w-42'  />
-        </Link>
-        <ul className='hidden md:flex text-gray-700 gap-5 text-sm font-medium'>
-            <NavLink to ='/' className='flex flex-col items-center gap-1'>
-                <p>HOME</p>
-                <hr className='w-2/4 bg-gray-700 hidden h-[1.5px]'/>
-            </NavLink>
-            <NavLink to='collection' className='flex flex-col items-center gap-1'>
-                <p>REPORT</p>
-                 <hr className='w-2/4 bg-gray-700 hidden h-[1.5px]'/>
-            </NavLink>
-            <NavLink to='about' className='flex flex-col items-center gap-1'>
-                <p>ISSUES</p>
-                <hr className='w-2/4 bg-gray-700 hidden h-[1.5px]'/>
-            </NavLink>
-            <NavLink to='contact'className='flex flex-col items-center gap-1'>
-                <p>CONTACT  </p>
-                <hr className='w-2/4 bg-gray-700 hidden h-[1.5px]'/>
-            </NavLink>
-            <NavLink to='home' className={'border-2 border-slate-100 rounded-3xl hover:bg-slate-300 p-2'}>
-                <p className='text-sm '>Admin Panel</p>
-            </NavLink>
-        </ul>
-        <div className='flex gap-6 items-center '>
-            <Link to='/collection'><img src={assets.search_icon} className='cursor-pointer w-5'/></Link>
-            <div className='group relative'> 
-                <img src={assets.profile_icon} className='cursor-pointer w-5' onClick={()=>{setDisplayProfileMenu(!displayProfileMenu)}}/>
-                <div className={`absolute right-0 pt-4 text-gray-600 ${displayProfileMenu? 'group-hover:block':'hidden'}`}>
-                    <div className='flex flex-col items-center gap-2 bg-slate-300 w-36 rounded-xl py-4'>
-                        <p className='hover:text-black cursor-pointer'>Profile</p>
-                        {/* <p className='hover:text-black cursor-pointer'>Orders</p> */}
-                        <p className='hover:text-black cursor-pointer'>Logout</p>
-                    </div>
-                </div>
-            </div>
-            {/* <Link to='/cart' className='relative'> */}
-                {/* <img className='cursor-pointer w-5'/> */}
-                {/* <p className='absolute right-[-5px] bottom-[-7px] text-center bg-black text-white rounded-full leading-4 text-[8px] w-4'>{getCartCount()}</p> */}
-            {/* </Link> */}
-            <img onClick={()=>{setDisplaySidebar(true)}} src={assets.menu_icon} className={`size-7 md:hidden ${displaySidebar ? 'hidden' : ''}`} />
-        </div>
-        {/* sidebar menu */}
-        <div className={`fixed top-0 right-0 h-screen w-64 bg-slate-200 backdrop-blur-md text-gray-700
-            z-50 transform transition-transform duration-300 ${displaySidebar ? "translate-x-0" : "translate-x-full"}
-            flex flex-col gap-5 p-4`}>
-            <button onClick={() => setDisplaySidebar(false)} type="button" className="cursor-pointer flex items-center gap-2.5 border border-gray-500/30 px-4 py-2 text-sm text-gray-800 rounded bg-white hover:text-pink-500/70 hover:bg-pink-500/10 hover:border-pink-500/30 active:scale-95 transition">
-                <svg width="16" height="13" viewBox="0 0 16 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 6.5H1M6.5 12 1 6.5 6.5 1" stroke="#FDA4AF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                Back
+    <nav className="w-full bg-white border-b border-gray-100 sticky top-0 z-50 font-sans">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          
+          {/* --- Mobile Menu Button --- */}
+          <div className="flex items-center md:hidden">
+            <button 
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="text-gray-600 hover:text-gray-900 focus:outline-none p-2"
+            >
+              <Menu size={24} />
             </button>
-            <nav className="flex flex-col space-y-2">                
-                <NavLink onClick={()=>{setDisplaySidebar(false)}} to='' className="cursor-pointer hover:text-black  px-2 py-1 rounded text-base border-b-2 border-gray-400 h-11">HOME</NavLink>
-                <NavLink onClick={()=>{setDisplaySidebar(false)}} to='collection' className="cursor-pointer hover:text-black px-2 py-1 rounded text-base border-b-2 border-gray-400 h-11">COLLECTION</NavLink>
-                <NavLink onClick={()=>{setDisplaySidebar(false)}} to='about'className="cursor-pointer hover:text-black px-2 py-1 rounded text-base border-b-2 border-gray-400 h-11">ABOUT</NavLink>
-                <NavLink onClick={()=>{setDisplaySidebar(false)}} to='contact' className="cursor-pointer hover:text-black px-2 py-1 rounded text-base border-b-2 border-gray-400 h-11">CONTACT</NavLink>
-                <NavLink to=' 'className="cursor-pointer hover:text-black px-2 py-1 rounded text-base border-b-2  border-gray-400 h-11">ADMIN PANEL</NavLink>
-            </nav>
-        </div> 
-    </div>
-  )
-}
+          </div>
 
-export default Navbar
+          {/* --- Logo / Brand (Hidden on Mobile if you want centered nav, adjust as needed) --- */}
+          <div className="shrink-0 items-center justify-center">
+             <span className="text-xl font-bold text-indigo-700">Issue Track</span>
+          </div>
+
+          {/* --- Desktop Navigation Links --- */}
+          <div className="hidden md:flex space-x-8 items-center justify-center flex-1">
+        {navLinks.map((link) => (
+            <NavLink
+            key={link.name}
+            to={link.href} // Note: Use 'to' instead of 'href'
+            className={({ isActive }) =>
+                `text-sm font-semibold tracking-wide transition-colors uppercase ${
+                isActive
+                    ? "text-indigo-600 border-b-2 border-indigo-600 pb-1" // Active Style
+                    : "text-gray-600 hover:text-indigo-600" // Inactive Style
+                }`
+            }
+            >
+            {link.name}
+            </NavLink>
+            ))}
+            </div>
+
+          {/* --- Right Actions --- */}
+          <div className="flex items-center space-x-4 sm:space-x-6">
+            
+            {/* Admin Panel Button */}
+            <NavLink to={'/admin'}>
+                <button className="hidden sm:flex items-center px-4 py-2 border border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-all">
+                Admin Panel
+                </button>
+            </NavLink>
+            {/* Search Icon */}
+            <button className="text-gray-500 hover:text-indigo-600 transition-colors p-1">
+              <Search size={22} />
+            </button>
+
+            {/* Profile Dropdown */}
+            <div className="relative" ref={profileRef}>
+              <button
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-indigo-50 text-gray-600 hover:text-indigo-600 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <User size={22} />
+              </button>
+
+              {/* Dropdown Menu */}
+              {isProfileOpen && (
+                <div className="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 py-1 transform origin-top-right transition-all animate-in fade-in zoom-in-95 duration-100">
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <p className="text-sm text-gray-500">Signed in as</p>
+                    <p className="text-sm font-bold text-gray-900 truncate">student@iitism.ac.in</p>
+                  </div>
+                  
+                  <a href="/profile" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600">
+                    <User size={16} className="mr-3" />
+                    Profile
+                  </a>
+                  
+                  <button 
+                    onClick={() => console.log('Logout clicked')}
+                    className="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                  >
+                    <LogOut size={16} className="mr-3" />
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* --- Mobile Sidebar (Drawer) --- */}
+      {/* Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-gray-800 bg-opacity-50 z-60 transition-opacity"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Drawer */}
+      <div className={`fixed inset-y-0 left-0 w-64 bg-white shadow-2xl z-70 transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        
+        {/* Mobile Header */}
+        <div className="h-20 flex items-center px-6 border-b border-gray-100">
+           <button 
+             onClick={() => setIsMobileMenuOpen(false)}
+             className="flex items-center text-gray-500 hover:text-gray-900"
+           >
+             <ChevronLeft size={20} className="mr-1"/>
+             <span className="text-sm font-medium">Back</span>
+           </button>
+        </div>
+
+        {/* Mobile Links */}
+        <div className="py-4 px-2 space-y-1">
+        {navLinks.map((link) => (
+            <NavLink
+            key={link.name}
+            to={link.href}
+            onClick={() => setIsMobileMenuOpen(false)} // Close menu when clicked!
+            className={({ isActive }) =>
+                `block px-4 py-3 text-base font-medium rounded-lg uppercase transition-colors ${
+                isActive
+                    ? "bg-indigo-50 text-indigo-600 font-semibold" // Active: Light purple bg
+                    : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600" // Inactive
+                }`
+            }
+            >
+            {link.name}
+            </NavLink>
+        ))}
+
+        <div className="border-t border-gray-100 my-2 pt-2">
+            <NavLink
+            to="/admin"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className={({ isActive }) =>
+                `block px-4 py-3 text-base font-medium rounded-lg transition-colors ${
+                isActive
+                    ? "bg-indigo-50 text-indigo-600 font-semibold"
+                    : "text-gray-700 hover:bg-gray-50"
+                }`
+            }
+            >
+            ADMIN PANEL
+            </NavLink>
+        </div>
+
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
