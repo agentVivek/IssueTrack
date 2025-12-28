@@ -1,0 +1,77 @@
+import { useEffect, useState } from "react";
+
+interface Issue {
+  id: number;
+  title: string;
+  status: 'OPEN' | 'IN PROGRESS' | 'RESOLVED'; // Union type for strict status checking
+  description: string;
+  image: File | null;
+  category: string;
+  zone: string;
+  reporter: string;
+  timeElapsed: string;
+  timestamp: number;
+  upvotes: number;
+  downvotes: number;
+  commentsCount: number;
+}
+
+export const useGetIssueById = (id: number) => {
+    const [issue, setIssue] = useState<Issue> ();
+    const [loading, setLoading] = useState<boolean> (false);
+
+    useEffect(()=>{
+      const getIssueById = async ()=>{
+        setLoading(true);
+        try{
+          const res = await fetch(`/api/issues/${id}`);
+          const data = await res.json();
+          if (data.error) throw new Error(data.error);
+          setIssue(data);
+        }catch(error){
+          console.log(error);
+        }finally{
+          setLoading(false);
+        }
+      }
+      getIssueById();
+    },[id]);
+
+    return {issue, loading};
+}
+
+interface Options{
+  userId?: string|undefined;
+  limit?: number|undefined;
+}
+
+export const useGetIssues = (options: Options) => {
+  const [issues, setIssues] = useState<Issue[]>();
+  const [loading, setLoading] = useState<boolean>();
+
+  const { userId , limit} = options;
+  useEffect(()=>{
+      const getIssues = async ()=>{
+        setLoading(true);
+        try{
+          // URLSearchParams automatically handles ? & = and encoding
+          const params = new URLSearchParams();
+          if (limit) params.append('limit', limit.toString());
+          if (userId) params.append('userId', userId);
+          const url = `/api/issues?${params.toString()}`;
+          const res = await fetch(url);
+          const data = await res.json();
+          if (data.error) throw new Error(data.error);
+          setIssues(data);
+        } catch(error){
+          console.log(error);
+        } finally{
+          setLoading(false);
+        }
+      }
+      getIssues();
+      },[limit, userId])
+
+      return {issues, loading};
+}
+
