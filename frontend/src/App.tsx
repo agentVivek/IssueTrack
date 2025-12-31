@@ -9,6 +9,8 @@ import IssueDetails from './pages/IssueDetails.tsx';
 import Profile from './pages/Profile.tsx';
 import EditProfile from './pages/EditProfile.tsx';
 import Contact from './pages/Contact.tsx';
+import Login from './pages/Login.tsx';
+import SignUp from './pages/SignUp.tsx';
 
 const App: React.FC = () => {
   return (
@@ -22,6 +24,8 @@ const App: React.FC = () => {
           <Route path='/profile' element={<Profile />} />
           <Route path='/editProfile' element={<EditProfile />}/>
           <Route path='/contact' element={<Contact /> } />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
         </Routes>
       <Footer />
     </div>
