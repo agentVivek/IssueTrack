@@ -1,23 +1,21 @@
 import React, { useState, type ChangeEvent, type FormEvent } from 'react';
-import { Upload, Check, AlertCircle, X, Image as ImageIcon } from 'lucide-react';
+import { Upload, Check, X, Image as ImageIcon } from 'lucide-react';
 
-// Define interface for form data
-interface FormData {
-  title: string;
-  description: string;
-  category: string;
-  zone: string;
-  isPriority: boolean;
+export interface IssueData{
+    title: string;
+    description: string;
+    category: string;
+    zone: string;
+    image?: File;
 }
 
 const Report: React.FC = () => {
   // State for text/select inputs
-  const [formData, setFormData] = useState<FormData>({
+  const [issueData, setIssueData] = useState<IssueData>({
     title: '',
     description: '',
     category: '',
     zone: '',
-    isPriority: false,
   });
   
   // Separate state for image file
@@ -55,13 +53,7 @@ const Report: React.FC = () => {
   // Handle text, textarea, and select changes
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  // Handle checkbox changes
-  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: checked }));
+    setIssueData((prev) => ({ ...prev, [name]: value }));
   };
 
   // Handle file input change
@@ -91,31 +83,30 @@ const Report: React.FC = () => {
     setIsSubmitting(true);
 
     // Basic validation
-    if (!formData.title.trim() || !formData.description.trim() || !formData.category || !formData.zone) {
+    if (!issueData.title.trim() || !issueData.description.trim() || !issueData.category || !issueData.zone) {
       alert('Please fill in all required fields marked with an asterisk (*).');
       setIsSubmitting(false);
       return;
     }
 
     // --- Backend Integration Point ---
-    // Here you would typically create a FormData object to send files + text
-    // const submissionData = new FormData();
-    // Object.entries(formData).forEach(([key, value]) => submissionData.append(key, value.toString()));
+    // Here you would typically create a issueData object to send files + text
+    // const submissionData = new issueData();
+    // Object.entries(issueData).forEach(([key, value]) => submissionData.append(key, value.toString()));
     // if (image) submissionData.append('image', image);
     // await axios.post('/api/issues', submissionData);
 
-    console.log('Submitting Form Data:', { ...formData, imageName: image?.name });
+    console.log('Submitting Form Data:', { ...issueData, imageName: image?.name });
 
     // Simulate network request delay
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // Reset form on success
-    setFormData({
+    setIssueData({
       title: '',
       description: '',
       category: '',
       zone: '',
-      isPriority: false,
     });
     handleRemoveImage();
     setIsSubmitting(false);
@@ -159,7 +150,7 @@ const Report: React.FC = () => {
                 type="text"
                 id="title"
                 name="title"
-                value={formData.title}
+                value={issueData.title}
                 onChange={handleInputChange}
                 placeholder="e.g., Streetlight not working near Amber Hostel gate"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors placeholder-gray-400"
@@ -175,7 +166,7 @@ const Report: React.FC = () => {
                 id="description"
                 name="description"
                 rows={5}
-                value={formData.description}
+                value={issueData.description}
                 onChange={handleInputChange}
                 placeholder="Please provide as much detail as possible. Where exactly is the issue? How long has it been happening?"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors placeholder-gray-400 resize-none"
@@ -193,9 +184,9 @@ const Report: React.FC = () => {
             <select
               id="category"
               name="category"
-              value={formData.category}
+              value={issueData.category}
               onChange={handleInputChange}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors bg-white appearance-none ${formData.category ? 'text-gray-900 border-gray-300' : 'text-gray-400 border-gray-300'}`}
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors bg-white appearance-none ${issueData.category ? 'text-gray-900 border-gray-300' : 'text-gray-400 border-gray-300'}`}
               required
               style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`, backgroundPosition: `right 0.75rem center`, backgroundRepeat: `no-repeat`, backgroundSize: `1.5em 1.5em` }}
             >
@@ -213,9 +204,9 @@ const Report: React.FC = () => {
             <select
               id="zone"
               name="zone"
-              value={formData.zone}
+              value={issueData.zone}
               onChange={handleInputChange}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors bg-white appearance-none ${formData.zone ? 'text-gray-900 border-gray-300' : 'text-gray-400 border-gray-300'}`}
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors bg-white appearance-none ${issueData.zone ? 'text-gray-900 border-gray-300' : 'text-gray-400 border-gray-300'}`}
               required
               style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`, backgroundPosition: `right 0.75rem center`, backgroundRepeat: `no-repeat`, backgroundSize: `1.5em 1.5em` }}
             >
@@ -286,15 +277,15 @@ const Report: React.FC = () => {
         </div>
 
         {/* Section 4: Priority & Submit */}
-        <div className="pt-4 border-t border-gray-100">
-            {/* --- High Priority Checkbox --- */}
+       {/* <div className="pt-4 border-t border-gray-100"> */}
+        {/*
             <div className="flex items-start mb-6">
             <div className="flex items-center h-5">
                 <input
                 id="isPriority"
                 name="isPriority"
                 type="checkbox"
-                checked={formData.isPriority}
+                checked={issueData.isPriority}
                 onChange={handleCheckboxChange}
                 className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded cursor-pointer"
                 />
@@ -308,7 +299,7 @@ const Report: React.FC = () => {
                 Select this only for urgent issues that pose an immediate safety risk or severe disruption.
                 </p>
             </div>
-            </div>
+            </div> */}
 
             {/* --- Submit Button --- */}
             <button
@@ -330,7 +321,7 @@ const Report: React.FC = () => {
                 'Submit Report'
             )}
             </button>
-        </div>
+        {/* </div> */}
       </form>
     </div>
   );

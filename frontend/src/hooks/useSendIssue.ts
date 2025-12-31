@@ -1,12 +1,5 @@
 import { useState } from "react"
-
-interface IssueData{
-    title: string;
-    description: string;
-    category: string;
-    zone: string;
-    image: File;
-}
+import type { IssueData } from "../pages/Report";
 
 export const useSendIssue = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -28,8 +21,8 @@ export const useSendIssue = () => {
 				method: "POST",
 				body: formData,
 			});
-			const data = await res.json();
-			if (data.error) throw new Error(data.error);
+			await res.json();
+			if (!res.ok) throw new Error("Failed to send data");
             return true;
         } catch(error){
             console.log(error);

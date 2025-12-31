@@ -26,7 +26,7 @@ export const useGetIssueById = (id: number) => {
         try{
           const res = await fetch(`/api/issues/${id}`);
           const data = await res.json();
-          if (data.error) throw new Error(data.error);
+          if (!res.ok) throw new Error("Failed to fetch issue");
           setIssue(data);
         }catch(error){
           console.log(error);
@@ -61,7 +61,7 @@ export const useGetIssues = (options: Options) => {
           const url = `/api/issues?${params.toString()}`;
           const res = await fetch(url);
           const data = await res.json();
-          if (data.error) throw new Error(data.error);
+          if (!res.ok) throw new Error("Failed to fetch issues");
           setIssues(data);
         } catch(error){
           console.log(error);

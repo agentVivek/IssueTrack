@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
 
           {/* Column 2: Contact Info */}
           <div className="md:text-right">
-            <h4 className={`text-lg font-semibold text-white mb-4`}>Contact IIT (ISM)</h4>
+            <h4 className={`text-lg font-semibold text-white mb-4`}>IIT (ISM) Dhanbad</h4>
             <ul className={`space-y-3 text-sm text-indigo-200 md:flex md:flex-col md:items-end`}>
               <li className="flex items-start md:justify-end">
                 <MapPin size={18} className={`mr-2 text-indigo-200 shrink-0 mt-0.5 md:order-2 md:ml-2 md:mr-0`} />
