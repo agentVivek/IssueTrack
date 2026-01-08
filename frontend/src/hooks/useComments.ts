@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-export interface Comment{
+export interface CommentType{
     id: number;
     content: string;
     issue_id: number;
@@ -9,12 +9,12 @@ export interface Comment{
     name: string;
     avatarUrl: string;
     };
-    created_at: number;
+    created_at: string;
 }
 
 export const useGetComments = (issueId: number) => {
     const [loading, setLoading] = useState<boolean> (false);
-    const [comments, setComments] = useState<Comment[]> ([]);
+    const [comments, setComments] = useState<CommentType[]> ([]);
 
     const fetchComments = useCallback(async () => {
       if (!issueId) return;

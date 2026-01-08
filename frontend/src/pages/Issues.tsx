@@ -1,71 +1,75 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Filter } from 'lucide-react';
 import IssueCard from '../components/IssueCard'; // Adjust path if needed
-import type { Issue } from '../components/RecentIssues.tsx'; // Re-using your Issue interface
+// import type { IssueType } from '../hooks/useGetIssues.ts';
+import { useGetIssues } from '../hooks/useGetIssues.ts';
+import { useNavigate } from 'react-router-dom';
   // --- 2. Mock Data (Expanded for testing) ---
-const allIssues: Issue[] = [
-    {
-      id: 1,
-      title: "Electricity pole down",
-      description: "Streetlight not working for 3 days near the main crossing.",
-      status: "OPEN",
-      category: "Electricity & Power",
-      zone: "Amber Hostel",
-      reporter: "Ashwani Pathak",
-      imageUrl: "https://images.unsplash.com/photo-1574359407328-3e4b370607c3?w=400&h=300&fit=crop",
-      timeElapsed: "less than a minute ago",
-      timestamp: new Date().getTime(), // For sorting
-      upvotes: 0,
-      downvotes: 0,
-      commentsCount: 0,
-    },
-    {
-      id: 2,
-      title: "Potholes on the Road",
-      description: "Potholes on the Road near Rupnarayanpur, causing traffic issues.",
-      status: "OPEN",
-      category: "Roads & Transport",
-      zone: "Academic Complex",
-      reporter: "Super Administrator",
-      imageUrl: "https://images.unsplash.com/photo-1515162816999-a0c47dc1e44b?w=400&h=300&fit=crop",
-      timeElapsed: "about 5 hours ago",
-      timestamp: new Date().getTime() - 18000000,
-      upvotes: 12,
-      downvotes: 0,
-      commentsCount: 1,
-    },
-    {
-      id: 3,
-      title: "Water Cooler Leaking",
-      description: "The water cooler on the 2nd floor is leaking continuously.",
-      status: "RESOLVED",
-      category: "Water Supply",
-      zone: "Jasper Hostel",
-      reporter: "Rahul Verma",
-      imageUrl: null,
-      timeElapsed: "1 day ago",
-      timestamp: new Date().getTime() - 86400000,
-      upvotes: 5,
-      downvotes: 1,
-      commentsCount: 2,
-    },
-    {
-      id: 4,
-      title: "Broken Bench in Park",
-      description: "A bench in the Student Activity Centre park is broken.",
-      status: "IN PROGRESS",
-      category: "Infrastructure",
-      zone: "Student Activity Centre (SAC)",
-      reporter: "Amit Singh",
-      imageUrl: null,
-      timeElapsed: "2 days ago",
-      timestamp: new Date().getTime() - 172800000,
-      upvotes: 8,
-      downvotes: 0,
-      commentsCount: 0,
-    }
-  ];    
+// const allIssues: Issue[] = [ 
+//     {
+//       id: 1,
+//       title: "Electricity pole down",
+//       description: "Streetlight not working for 3 days near the main crossing.",
+//       status: "OPEN",
+//       category: "Electricity & Power",
+//       zone: "Amber Hostel",
+//       reporter: "Ashwani Pathak",
+//       imageUrl: "https://images.unsplash.com/photo-1574359407328-3e4b370607c3?w=400&h=300&fit=crop",
+//       timeElapsed: "less than a minute ago",
+//       timestamp: new Date().getTime(), // For sorting
+//       upvotes: 0,
+//       downvotes: 0,
+//       commentsCount: 0,
+//     },
+//     {
+//       id: 2,
+//       title: "Potholes on the Road",
+//       description: "Potholes on the Road near Rupnarayanpur, causing traffic issues.",
+//       status: "OPEN",
+//       category: "Roads & Transport",
+//       zone: "Academic Complex",
+//       reporter: "Super Administrator",
+//       imageUrl: "https://images.unsplash.com/photo-1515162816999-a0c47dc1e44b?w=400&h=300&fit=crop",
+//       timeElapsed: "about 5 hours ago",
+//       timestamp: new Date().getTime() - 18000000,
+//       upvotes: 12,
+//       downvotes: 0,
+//       commentsCount: 1,
+//     },
+//     {
+//       id: 3,
+//       title: "Water Cooler Leaking",
+//       description: "The water cooler on the 2nd floor is leaking continuously.",
+//       status: "RESOLVED",
+//       category: "Water Supply",
+//       zone: "Jasper Hostel",
+//       reporter: "Rahul Verma",
+//       imageUrl: null,
+//       timeElapsed: "1 day ago",
+//       timestamp: new Date().getTime() - 86400000,
+//       upvotes: 5,
+//       downvotes: 1,
+//       commentsCount: 2,
+//     },
+//     {
+//       id: 4,
+//       title: "Broken Bench in Park",
+//       description: "A bench in the Student Activity Centre park is broken.",
+//       status: "IN PROGRESS",
+//       category: "Infrastructure",
+//       zone: "Student Activity Centre (SAC)",
+//       reporter: "Amit Singh",
+//       imageUrl: null,
+//       timeElapsed: "2 days ago",
+//       timestamp: new Date().getTime() - 172800000,
+//       upvotes: 8,
+//       downvotes: 0,
+//       commentsCount: 0,
+//     }
+//   ];    
 const Issues: React.FC = () => {
+  const {allIssues, loading} = useGetIssues({});
+  const navigate = useNavigate();
   // --- 1. State for Filters ---
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
@@ -74,12 +78,9 @@ const Issues: React.FC = () => {
 //   const [selectedPriority, setSelectedPriority] = useState('All Priority');
   const [sortBy, setSortBy] = useState('Latest');
 
-
-
   // --- 3. Filter Logic ---
   const filteredIssues = useMemo(() => {
-    return allIssues
-      .filter((issue) => {
+    return allIssues.filter((issue) => {
         // Search Filter (checks title, description, and location)
         const matchesSearch = 
           issue.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -94,12 +95,12 @@ const Issues: React.FC = () => {
       })
       .sort((a, b) => {
         // Sorting Logic
-        if (sortBy === 'Latest') return b.timestamp - a.timestamp;
-        if (sortBy === 'Oldest') return a.timestamp - b.timestamp;
+        if (sortBy === 'Latest')  return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        if (sortBy === 'Oldest')  return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
         if (sortBy === 'Most Voted') return b.upvotes - a.upvotes;
         return 0;
       });
-  }, [searchQuery, selectedCategory, selectedZone, selectedStatus, sortBy]);
+  }, [searchQuery, selectedCategory, selectedZone, selectedStatus, sortBy, allIssues]);
 
   // --- Hardcoded Options ---
   const categories = ['All Categories', 'Roads & Transport', 'Electricity & Power', 'Water Supply', 'Infrastructure', 'Sanitation'];
@@ -109,7 +110,7 @@ const Issues: React.FC = () => {
   const sortOptions = ['Latest', 'Oldest', 'Most Voted'];
 
   const handleViewDetails = (id: number) => {
-    console.log("View details for:", id);
+    navigate(`/issues/${id}`);
   };
 
   return (
@@ -184,7 +185,7 @@ const Issues: React.FC = () => {
 
         {/* List */}
         <div className="flex flex-col gap-4">
-          {filteredIssues.length > 0 ? (
+          {filteredIssues && filteredIssues.length > 0 ? (
             filteredIssues.map((issue) => (
               <IssueCard 
                 key={issue.id} 

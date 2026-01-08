@@ -16,7 +16,7 @@ export const useLogin = () => {
             if (!res.ok) {
                 throw new Error("Invalid credentials");
             }
-            navigate('/');
+            navigate('/'); 
         } catch (error) {
             console.log(error);
             return false;

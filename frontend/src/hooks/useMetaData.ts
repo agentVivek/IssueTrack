@@ -8,7 +8,7 @@ export interface Category{
 
 export const useGetCategories = ()=>{
     const [loading, setLoading] = useState<boolean> (false);
-    const [categories, setCategories] = useState<Category[]> ();
+    const [categories, setCategories] = useState<Category[]> ([]);
     useEffect(()=>{
         const getCategories = async()=>{
             setLoading(true);

@@ -1,23 +1,26 @@
 import { useEffect, useState } from "react";
 
-interface Issue {
+export interface IssueType { 
   id: number;
   title: string;
   status: 'OPEN' | 'IN PROGRESS' | 'RESOLVED'; // Union type for strict status checking
   description: string;
-  image: File | null;
+  imageUrl: string | null;
   category: string;
   zone: string;
-  reporter: string;
-  timeElapsed: string;
-  timestamp: number;
+  user: {
+    userId: string;
+    name: string;
+    avatarUrl: string;
+  };
+  created_at: string;
   upvotes: number;
   downvotes: number;
   commentsCount: number;
 }
 
 export const useGetIssueById = (id: number) => {
-    const [issue, setIssue] = useState<Issue> ();
+    const [issue, setIssue] = useState<IssueType> ();
     const [loading, setLoading] = useState<boolean> (false);
 
     useEffect(()=>{
@@ -46,8 +49,8 @@ interface Options{
 }
 
 export const useGetIssues = (options: Options) => {
-  const [issues, setIssues] = useState<Issue[]>();
-  const [loading, setLoading] = useState<boolean>();
+  const [issues, setIssues] = useState<IssueType[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { userId , limit} = options;
   useEffect(()=>{
@@ -72,6 +75,6 @@ export const useGetIssues = (options: Options) => {
       getIssues();
       },[limit, userId])
 
-      return {issues, loading};
+      return {allIssues: issues, loading};
 }
 

@@ -1,5 +1,7 @@
 import React, { useState, type ChangeEvent, type FormEvent } from 'react';
-import { Upload, Check, X, Image as ImageIcon } from 'lucide-react';
+import { Upload, X, Image as ImageIcon } from 'lucide-react';
+import { useSendIssue } from '../hooks/useSendIssue';
+import { useNavigate } from 'react-router-dom';
 
 export interface IssueData{
     title: string;
@@ -11,6 +13,8 @@ export interface IssueData{
 
 const Report: React.FC = () => {
   // State for text/select inputs
+  const navigate = useNavigate();
+  const { sendIssue, sending } = useSendIssue();
   const [issueData, setIssueData] = useState<IssueData>({
     title: '',
     description: '',
@@ -20,10 +24,6 @@ const Report: React.FC = () => {
   
   // Separate state for image file
   const [image, setImage] = useState<File | null>(null);
-  // UI states
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-
   // Hardcoded options relevant to IIT (ISM)
   const categories = [
     'Roads & Transport',
@@ -80,40 +80,12 @@ const Report: React.FC = () => {
   // Handle form submission
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
-    // Basic validation
-    if (!issueData.title.trim() || !issueData.description.trim() || !issueData.category || !issueData.zone) {
-      alert('Please fill in all required fields marked with an asterisk (*).');
-      setIsSubmitting(false);
-      return;
+    const success = await sendIssue(issueData);
+    if(success){
+      console.log("Successfully Reported Issue.");
+      navigate('/');
     }
-
-    // --- Backend Integration Point ---
-    // Here you would typically create a issueData object to send files + text
-    // const submissionData = new issueData();
-    // Object.entries(issueData).forEach(([key, value]) => submissionData.append(key, value.toString()));
-    // if (image) submissionData.append('image', image);
-    // await axios.post('/api/issues', submissionData);
-
-    console.log('Submitting Form Data:', { ...issueData, imageName: image?.name });
-
-    // Simulate network request delay
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    // Reset form on success
-    setIssueData({
-      title: '',
-      description: '',
-      category: '',
-      zone: '',
-    });
-    handleRemoveImage();
-    setIsSubmitting(false);
-    setSubmitSuccess(true);
-
-    // Hide success message after 5 seconds
-    setTimeout(() => setSubmitSuccess(false), 5000);
   };
 
   return (
@@ -127,7 +99,7 @@ const Report: React.FC = () => {
       </div>
 
       {/* --- Success Message Alert --- */}
-      {submitSuccess && (
+      {/* {submitSuccess && (
         <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg flex items-start animate-in fade-in">
           <Check size={24} className="mr-3 shrink-0 text-green-600 mt-0.5" />
           <div>
@@ -135,7 +107,7 @@ const Report: React.FC = () => {
             <p className="text-sm mt-1">Your issue has been logged. You can track its status on the Issues page.</p>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* --- Form --- */}
       <form onSubmit={handleSubmit} className="space-y-8">
@@ -304,12 +276,12 @@ const Report: React.FC = () => {
             {/* --- Submit Button --- */}
             <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={sending}
             className={`w-full flex justify-center items-center py-4 px-6 border border-transparent rounded-lg shadow-sm text-lg font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all ${
-                isSubmitting ? 'opacity-75 cursor-not-allowed' : 'hover:shadow-md hover:-translate-y-0.5'
+                sending ? 'opacity-75 cursor-not-allowed' : 'hover:shadow-md hover:-translate-y-0.5'
             }`}
             >
-            {isSubmitting ? (
+            {sending ? (
                 <>
                 <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>

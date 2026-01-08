@@ -1,9 +1,9 @@
 import { useState } from "react";
 import type { signUpData } from "../pages/SignUp";
-import { useNavigate } from "react-router-dom";
-export const useSignUp = ()=>{
+
+
+export const useSignUp = (setStep: React.Dispatch<React.SetStateAction<'EMAIL' | 'OTP'>>)=>{
     const [loading, setLoading] = useState<boolean> (false);
-    const navigate = useNavigate();
     const signup = async (userData : signUpData) =>{
         const isValid = handleError(userData);
         if(!isValid) return;
@@ -14,11 +14,11 @@ export const useSignUp = ()=>{
                 headers: {"Content-Type" : "application/json"},
                 body: JSON.stringify(userData),
             }) 
-            const data = await res.json(); //returns js object
+            const data = await res.json(); 
             if(data.error){
                 throw new Error("Failed to SignUp. Please Try Again Later");
             }
-            navigate('/');
+            setStep('OTP');
         } catch(error){
             // toast.error(error);
         } finally{
@@ -29,9 +29,13 @@ export const useSignUp = ()=>{
 }
 
 const handleError = (data: signUpData) => {
-    const {fullName, email, password, confirmPassword} = data;
-    if(!fullName || !email || !password || !confirmPassword){
+    const {email, password, confirmPassword} = data;
+    if(!email || !password || !confirmPassword){
         // toast.error("All fields are required");
+        return false;
+    }
+    if(!email.endsWith('@iitism.ac.in')){
+        // toast.error("Please use your college email (@iitism.ac.in)");
         return false;
     }
     if(password.length < 6){

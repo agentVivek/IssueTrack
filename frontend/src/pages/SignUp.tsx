@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Assumes react-router-dom is installed
-import { UserPlus, Mail, Lock, User } from 'lucide-react'; // Optional icons: npm install lucide-react
+import { Link } from 'react-router-dom'; // Assumes react-router-dom is installed
+import { UserPlus, Mail, Lock } from 'lucide-react'; // Optional icons: npm install lucide-react
 import { useSignUp } from '../hooks/useSignUp';
+import OtpVerification from '../components/OtpVerification';
 export interface signUpData{
-    fullName: string;
+    // fullName: string;
     email: string;
     password: string;
     confirmPassword: string;
@@ -11,10 +12,10 @@ export interface signUpData{
 
 
 const SignUp: React.FC = () => {
-  const navigate = useNavigate();
-   const {signup, loading} = useSignUp();
+  const [step, setStep] = useState<'EMAIL' | 'OTP'>('EMAIL');
+  const {signup, loading} = useSignUp(setStep);
   const [formData, setFormData] = useState<signUpData>({
-    fullName: '',
+    // fullName: '',
     email: '',
     password: '',
     confirmPassword: ''
@@ -31,7 +32,7 @@ const SignUp: React.FC = () => {
     e.preventDefault();
     await signup(formData);
   };
-
+  if(step == 'OTP') return <OtpVerification  email={formData.email} setStep={setStep}/>
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
@@ -54,7 +55,7 @@ const SignUp: React.FC = () => {
           <div className="space-y-4">
             
             {/* Full Name */}
-            <div className="relative">
+            {/* <div className="relative">
               <label htmlFor="fullName" className="sr-only">Full Name</label>
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <User className="h-5 w-5 text-gray-400" />
@@ -69,7 +70,7 @@ const SignUp: React.FC = () => {
                 value={formData.fullName}
                 onChange={handleChange}
               />
-            </div>
+            </div> */}
 
             {/* Email */}
             <div className="relative">

@@ -1,6 +1,7 @@
 import { MapPin, Clock, Tag, ThumbsUp, ThumbsDown, MessageSquare, User, Image as ImageIcon } from 'lucide-react';
-import type { Issue } from './RecentIssues';
-
+import type { IssueType } from '../hooks/useGetIssues';
+import { timeAgo } from '../utils/dateUtils';
+import { useNavigate } from 'react-router-dom';
 // Helper function to get status badge styles
 const getStatusStyles = (status: string): string => {
   const statusMap: Record<string, string> = {
@@ -13,26 +14,29 @@ const getStatusStyles = (status: string): string => {
 };
 
 interface IssueCardProps{
-    data: Issue;
-    onViewDetails: ()=>void;
+    data: IssueType;
 }
 
 const IssueCard: React.FC<IssueCardProps> = (props) => {
-    const { data, onViewDetails } = props;
     const {
-        title,
-        description,
-        imageUrl,
-        status = 'OPEN',
-        category,
-        zone,
-        reporter,
-        timeElapsed,
-        upvotes = 0,
-        downvotes = 0,
-        commentsCount = 0,
-    } = data;
+      id,
+      title,
+      status, // Union type for strict status checking
+      description,
+      imageUrl,
+      category,
+      zone,
+      user,
+      created_at,
+      upvotes,
+      downvotes,
+      commentsCount,
+    } = props.data;
 
+    const navigate = useNavigate();
+    const onViewDetails = () =>{
+      navigate(`/issues/${id}`)
+    }
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col sm:flex-row gap-5 hover:shadow-md transition-all duration-200">
       
@@ -89,16 +93,16 @@ const IssueCard: React.FC<IssueCardProps> = (props) => {
               </div>
             )}
             <div className="flex items-center gap-4 text-xs text-gray-500">
-              {reporter && (
+              {user && (
                 <div className="flex items-center">
                   <User size={14} className="mr-1.5 text-gray-400" />
-                  <span>By <span className="font-semibold text-gray-700">{reporter}</span></span>
+                  <span>By <span className="font-semibold text-gray-700">{user.name}</span></span>
                 </div>
               )}
-              {timeElapsed && (
+              {created_at && (
                 <div className="flex items-center">
                   <Clock size={14} className="mr-1.5 text-gray-400" />
-                  <span>{timeElapsed}</span>
+                  <span>{timeAgo(created_at)}</span>
                 </div>
               )}
             </div>
