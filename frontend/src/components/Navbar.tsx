@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, User, Menu, LogOut, ChevronLeft } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
+import useLogout from '../hooks/useLogout';
 
 const Navbar: React.FC = () => {
+  const {loading, logout} = useLogout();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -24,6 +26,9 @@ const Navbar: React.FC = () => {
     { name: 'ISSUES', href: '/issues' },
     { name: 'CONTACT', href: '/contact' },
   ];
+  const handleLogout = async () => {
+    await logout;
+  }
 
   return (
     <nav className="w-full bg-white border-b border-gray-100 sticky top-0 z-50 font-sans">
@@ -50,7 +55,7 @@ const Navbar: React.FC = () => {
         {navLinks.map((link) => (
             <NavLink
             key={link.name}
-            to={link.href} // Note: Use 'to' instead of 'href'
+            to={link.href}
             className={({ isActive }) =>
                 `text-sm font-semibold tracking-wide transition-colors uppercase ${
                 isActive
@@ -101,7 +106,8 @@ const Navbar: React.FC = () => {
                   </a>
                   
                   <button 
-                    onClick={() => console.log('Logout clicked')}
+                    disabled={loading}
+                    onClick={handleLogout}
                     className="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                   >
                     <LogOut size={16} className="mr-3" />

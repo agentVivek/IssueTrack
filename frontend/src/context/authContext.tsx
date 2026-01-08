@@ -1,9 +1,10 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
+import { authContext } from "../hooks/useAuth";
 
-interface userType{
+export interface userType{
     id: number;
     fullName: string;
-    email: string;
+    email: string; 
     role: string;
     // branch: string;
     profile_img: string;
@@ -12,12 +13,6 @@ interface userType{
 interface AuthProviderProps{
     children: React.ReactNode;
 }
-interface AuthContextType{
-    authUser: userType|null;
-    setAuthUser: React.Dispatch<React.SetStateAction<userType | null>>;
-}
-
-const authContext = createContext<AuthContextType|null> (null);
 
 const AuthProvider : React.FC<AuthProviderProps> =  (props) => {
     const [authUser, setAuthUser] = useState<userType|null>(getStoredUser());
@@ -40,3 +35,4 @@ function getStoredUser(){
 }
 
 export default AuthProvider;
+

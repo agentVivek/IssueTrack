@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import useAuth from "./useAuth";
+
 export const useOtpVerification = () => {
+    const { setAuthUser } = useAuth();
+
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const verifyOtp = async (email: string, otp: string) => {
@@ -18,8 +22,9 @@ export const useOtpVerification = () => {
             if(data.error){
                 throw new Error("Failed to SignUp. Please Try Again Later");
             }
-            //Store Token and Redirect '/'
-            console.log(data);
+            //Store user in local Storage
+            localStorage.setItem("it-user", JSON.stringify(data));
+            setAuthUser(data);
             navigate('/');
         } catch(error){
             // toast.error();

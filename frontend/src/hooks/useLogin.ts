@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useAuth from "./useAuth";
 
 export const useLogin = () => { 
+    const { setAuthUser } = useAuth();
     const [loading, setLoading] = useState<boolean> (false);
     const navigate = useNavigate();
     const login = async (email: string, password: string) => {
@@ -16,6 +18,8 @@ export const useLogin = () => {
             if (!res.ok) {
                 throw new Error("Invalid credentials");
             }
+            localStorage.setItem("it-user", JSON.stringify(data));
+            setAuthUser(data);
             navigate('/'); 
         } catch (error) {
             console.log(error);
