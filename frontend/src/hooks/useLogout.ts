@@ -1,10 +1,11 @@
 import { useState } from "react"
 import useAuth from "./useAuth";
+import { useNavigate } from "react-router-dom";
 
 const useLogout = () => {
     const {setAuthUser} = useAuth();
     const [loading, setLoading] = useState<boolean>(false);
-
+    const navigate = useNavigate();
     const logout = async () => {
         setLoading(true);
         try{
@@ -19,10 +20,11 @@ const useLogout = () => {
             localStorage.removeItem("it-user");
             setAuthUser(null);
             // toast.success("LoggedOut Successfully");
+            navigate('/login');
         }catch(error){
             // toast.error(error.message);
         } finally{
-            setLoading(true);
+            setLoading(false);
         }
     }
 

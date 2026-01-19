@@ -11,11 +11,12 @@ import EditProfile from './pages/EditProfile.tsx';
 import Contact from './pages/Contact.tsx';
 import Login from './pages/Login.tsx';
 import SignUp from './pages/SignUp.tsx';
+import AdminDashboard from './pages/admin/AdminDashboard.tsx';
 
 const App: React.FC = () => {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
         <Routes>
           <Route path='/' element={<Home/>} />
           <Route path='/report' element={<Report/>} />
@@ -26,8 +27,9 @@ const App: React.FC = () => {
           <Route path='/contact' element={<Contact /> } />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
+          <Route path='/admin' element={<AdminDashboard />} />
         </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   )
 }
