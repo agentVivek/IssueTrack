@@ -109,10 +109,6 @@ const Issues: React.FC = () => {
 //   const priorities = ['All Priority', 'High', 'Medium', 'Low'];
   const sortOptions = ['Latest', 'Oldest', 'Most Voted'];
 
-  const handleViewDetails = (id: number) => {
-    navigate(`/issues/${id}`);
-  };
-
   return (
     <div className="min-h-screen bg-gray-50 pb-12 font-sans">
       
@@ -190,7 +186,6 @@ const Issues: React.FC = () => {
               <IssueCard 
                 key={issue.id} 
                 data={issue} 
-                onViewDetails={() => handleViewDetails(issue.id)} 
               />
             ))
           ) : (

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { 
   LayoutDashboard, 
   Users, 
   AlertCircle, 
-  Settings, // 1. Uncomment this to get the Icon
+  Settings, 
   Search, 
   Bell, 
   Menu,
@@ -13,29 +13,14 @@ import {
 } from 'lucide-react';
 
 // Import your separated components
-import Dashboard from '../../components/admin/Dashboard';
-import UsersList from '../../components/admin/UserList';
-import AllIssues from '../../components/admin/AllIssues';
-import SettingsPage from '../../components/admin/Settings'; // 2. Rename this import to avoid conflict
+import Dashboard from '../components/admin/Dashboard';
+import UsersList from '../components/admin/UserList';
+import AllIssues from '../components/admin/AllIssues';
+import SettingsPage from '../components/admin/Settings'; 
 
-const AdminDashboard = () => {
+const Admin = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
-
-  const stats = [
-    { title: 'Total Issues', value: '1,248', icon: AlertCircle, color: 'text-blue-600', bg: 'bg-blue-100' },
-    { title: 'Pending', value: '45', icon: Clock, color: 'text-amber-600', bg: 'bg-amber-100' },
-    { title: 'Resolved', value: '1,180', icon: CheckCircle, color: 'text-green-600', bg: 'bg-green-100' },
-    { title: 'Active Users', value: '3,500', icon: Users, color: 'text-indigo-600', bg: 'bg-indigo-100' },
-  ];
-
-  const recentIssues = [
-    { id: 101, title: 'Broken Projector in L-105', reportedBy: 'Amit Kumar', date: 'Jan 19, 2026', status: 'Pending', priority: 'High' },
-    { id: 102, title: 'Water Leakage in Jasper Hostel', reportedBy: 'Sarah Smith', date: 'Jan 18, 2026', status: 'Resolved', priority: 'Medium' },
-    { id: 103, title: 'Wi-Fi not connecting in Library', reportedBy: 'Rahul Singh', date: 'Jan 18, 2026', status: 'In Progress', priority: 'High' },
-    { id: 104, title: 'Broken Chair in Canteen', reportedBy: 'Priya D.', date: 'Jan 17, 2026', status: 'Resolved', priority: 'Low' },
-    { id: 105, title: 'AC Malfunction in Comp Lab', reportedBy: 'Faculty: Dr. Roy', date: 'Jan 16, 2026', status: 'Pending', priority: 'Critical' },
-  ];
 
   return (
     <div className="flex h-screen bg-gray-50 font-sans">
@@ -102,14 +87,14 @@ const AdminDashboard = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="relative hidden md:block">
+            {/* <div className="relative hidden md:block">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <input 
                 type="text" 
                 placeholder="Search..." 
                 className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm w-64"
               />
-            </div>
+            </div> */}
             <button className="relative p-2 text-gray-600 hover:bg-gray-100 rounded-full">
               <Bell size={20} />
               <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
@@ -118,11 +103,10 @@ const AdminDashboard = () => {
         </header>
 
         <main className="p-6 overflow-y-auto bg-gray-50 flex-1">
-          {activeTab === 'dashboard' && <Dashboard stats={stats} recentIssues={recentIssues} />}
+          {activeTab === 'dashboard' && <Dashboard />}
           {activeTab === 'users' && <UsersList />}
           {activeTab === 'issues' && <AllIssues />}
-          {/* 4. Use the renamed component variable here */}
-          {activeTab === 'settings' && <SettingsPage />} 
+          {activeTab === 'settings' && <h1 className='text-center'>Coming Soon...</h1>} 
         </main>
         
       </div>
@@ -130,4 +114,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default Admin;

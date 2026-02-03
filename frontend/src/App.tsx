@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 import Footer from './components/Footer.tsx';
 import Navbar from './components/Navbar.tsx';
@@ -11,12 +11,14 @@ import EditProfile from './pages/EditProfile.tsx';
 import Contact from './pages/Contact.tsx';
 import Login from './pages/Login.tsx';
 import SignUp from './pages/SignUp.tsx';
-import AdminDashboard from './pages/admin/AdminDashboard.tsx';
+import Admin from './pages/Admin.tsx';
 
 const App: React.FC = () => {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
   return (
     <div>
-      {/* <Navbar /> */}
+      {!isAdminRoute && <Navbar />}
         <Routes>
           <Route path='/' element={<Home/>} />
           <Route path='/report' element={<Report/>} />
@@ -27,9 +29,10 @@ const App: React.FC = () => {
           <Route path='/contact' element={<Contact /> } />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
-          <Route path='/admin' element={<AdminDashboard />} />
+          <Route path='/admin' element={<Admin />} />
+          {/* <Route path='/admin/issues/:id' element={<IssueDetails/>} /> */}
         </Routes>
-      {/* <Footer /> */}
+      {!isAdminRoute && <Footer />}
     </div>
   )
 }
