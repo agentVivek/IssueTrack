@@ -8,7 +8,7 @@ import { Search,
  } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-// Mock Data converted to State so UI updates on delete
+// Mock Data converted to State so UI updates on Deactivate
 const users = [
     { id: 1, name: 'Amit Kumar', role: 'Student', email: 'amit.22je0123@iitism.ac.in', dept: 'CSE', status: 'Active' },
     { id: 2, name: 'Dr. S. Roy', role: 'Faculty', email: 'sroy@iitism.ac.in', dept: 'Mining', status: 'Active' },
@@ -27,7 +27,7 @@ const UsersList = () => {
   }, [searchQuery]);
 
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
-  const [deleteModal, setDeleteModal] = useState<{ show: boolean; id: number | null }>({ show: false, id: null });
+  const [DeactivateModal, setDeactivateModal] = useState<{ show: boolean; id: number | null }>({ show: false, id: null });
   
   // Ref for click outside
   const menuRef = useRef<HTMLDivElement>(null);
@@ -46,15 +46,15 @@ const UsersList = () => {
     setOpenMenuId(openMenuId === id ? null : id);
   };
 
-  const confirmDeleteClick = (id: number) => {
-    setDeleteModal({ show: true, id });
+  const confirmDeactivateClick = (id: number) => {
+    setDeactivateModal({ show: true, id });
     setOpenMenuId(null); // Close menu if open
   };
 
-  const handleDeleteConfirm = () => {
-    // if (deleteModal.id) {
-    //   setUsers(users.filter(u => u.id !== deleteModal.id));
-    //   setDeleteModal({ show: false, id: null });
+  const handleDeactivateConfirm = () => {
+    // if (DeactivateModal.id) {
+    //   setUsers(users.filter(u => u.id !== DeactivateModal.id));
+    //   setDeactivateModal({ show: false, id: null });
     // }
   };
 
@@ -136,11 +136,11 @@ const UsersList = () => {
                   <td className="px-6 py-4 text-right relative"> 
                     <div className="flex items-center justify-end gap-2">
                       
-                      {/* Quick Delete Button (Hover only) */}
+                      {/* Quick Deactivate Button (Hover only) */}
                       <button 
-                        onClick={() => confirmDeleteClick(user.id)}
+                        onClick={() => confirmDeactivateClick(user.id)}
                         className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors opacity-0 group-hover:opacity-100" 
-                        title="Quick Delete"
+                        title="Quick Deactivate"
                       >
                         <Trash2 size={18} />
                       </button>
@@ -157,30 +157,12 @@ const UsersList = () => {
                         {/* --- DROPDOWN MENU --- */}
                         {openMenuId === user.id && (
                           <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 z-50 animate-in fade-in zoom-in-95 duration-100 origin-top-right">
-                            <div className="py-1">
-                              <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                                <Eye size={16} className="text-gray-400" /> View Details
-                              </button>
-                              <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                                <UserPlus size={16} className="text-gray-400" /> Assign Agent
-                              </button>
-                              <button className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-                                <Mail size={16} className="text-gray-400" /> Email Student
-                              </button>
-                              <div className="border-t border-gray-100 my-1"></div>
                               <button 
-                                // onClick={() => handleStatusUpdate(issue.id, 'Resolved')}
-                                className="w-full text-left px-4 py-2 text-sm text-green-600 hover:bg-green-50 flex items-center gap-2"
-                              >
-                                <CheckCircle size={16} /> Mark Resolved
-                              </button>
-                              <button 
-                                onClick={() => confirmDeleteClick(user.id)}
+                                onClick={() => confirmDeactivateClick(user.id)}
                                 className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
                               >
-                                <Trash2 size={16} /> Delete User
+                                <Trash2 size={16} /> Deactivate User
                               </button>
-                            </div>
                           </div>
                         )}
                       </div>
@@ -193,27 +175,27 @@ const UsersList = () => {
         </div>
       </div>
 
-      {/* --- 3. DELETE CONFIRMATION MODAL (MOVED OUTSIDE TABLE) --- */}
-      {deleteModal.show && (
+      {/* --- 3. Deactivate CONFIRMATION MODAL (MOVED OUTSIDE TABLE) --- */}
+      {DeactivateModal.show && (
         <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 transform transition-all scale-100">
             <div className="flex flex-col items-center text-center">
               <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
                 <Trash2 className="text-red-600" size={24} />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Delete User</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Deactivate User</h3>
               <p className="text-gray-500 text-sm mb-6">
-                Are you sure you want to delete this user? This action cannot be undone.
+                Are you sure you want to Deactivate this user? This action cannot be undone.
               </p>
               <div className="flex gap-3 w-full">
                 <button 
-                  onClick={() => setDeleteModal({ show: false, id: null })}
+                  onClick={() => setDeactivateModal({ show: false, id: null })}
                   className="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-colors"
                 >
                   Cancel
                 </button>
                 <button 
-                  onClick={handleDeleteConfirm}
+                  onClick={handleDeactivateConfirm}
                   className="flex-1 px-4 py-2.5 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 shadow-sm shadow-red-200 transition-colors"
                 >
                   Confirm
