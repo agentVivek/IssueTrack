@@ -74,7 +74,6 @@ export const useGetIssues = (options: Options) => {
       }
       getIssues();
       },[limit, userId])
-
       return {allIssues: issues, loading};
 }
 

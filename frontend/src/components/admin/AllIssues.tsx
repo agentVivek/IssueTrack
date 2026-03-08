@@ -5,14 +5,12 @@ import {
   ChevronLeft, 
   ChevronRight,
   Trash2,
-  CheckCircle,
-  X
+
 } from 'lucide-react';
 import IssueCard from './IssueCard';
-import type { IssueType } from '../../hooks/useGetIssues';
+import { useGetIssues, type IssueType } from '../../hooks/useGetIssues';
 const AllIssues: React.FC = () => {
-  // 1. Data State 
-  
+  const {allIssues, loading} = useGetIssues({});
   const [issues, setIssues] = useState<IssueType[]>([
       {
         id: 1,

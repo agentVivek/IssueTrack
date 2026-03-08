@@ -1,12 +1,10 @@
 import { Search,
   MoreVertical, 
-  Eye, 
   Trash2, 
   Mail,
-  UserPlus,
-  CheckCircle,
  } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useGetUsers } from '../../hooks/useGetUsers';
 
 // Mock Data converted to State so UI updates on Deactivate
 const users = [
@@ -16,7 +14,8 @@ const users = [
     { id: 4, name: 'Rahul Singh', role: 'Admin', email: 'admin.rahul@iitism.ac.in', dept: 'Estate Office', status: 'Active' },
     { id: 5, name: 'Neha Gupta', role: 'Student', email: 'neha.23je0999@iitism.ac.in', dept: 'EE', status: 'Active' },
 ];
-const UsersList = () => { 
+const UsersList : React.FC = () => { 
+  const {users: allUsers, loading} = useGetUsers();
   const [searchQuery, setSearchQuery] = useState('');
   const filteredUsers = useMemo(()=>{ 
     return users.filter((user)=>{

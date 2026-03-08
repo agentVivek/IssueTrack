@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
-import { 
-  CheckCircle, 
-  Clock, 
-  Users, 
+import {
+  CheckCircle,
+  Clock,
+  Users,
   AlertCircle,
   X,
   Trash2
 } from 'lucide-react';
 import IssueCard from './IssueCard';
 
-import type { IssueType } from '../../hooks/useGetIssues';
+import { useGetIssues, type IssueType } from '../../hooks/useGetIssues';
 
-const Dashboard: React.FC = () => {
+
+interface DashboardProps {
+  onViewAllIssues: () => void;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ onViewAllIssues }) => {
+  const { loading, allIssues: recentIssues } = useGetIssues({ limit: 5 });
   const [issues, setIssues] = useState<IssueType[]>([
     {
       id: 1,
@@ -74,7 +80,7 @@ const Dashboard: React.FC = () => {
       setIssues((prev) => prev.filter((issue) => issue.id !== deleteModal.id));
       setDeleteModal({ show: false, id: null });
       setShowSuccessToast(true);
-      
+
       // Auto hide toast
       setTimeout(() => setShowSuccessToast(false), 3000);
     }
@@ -82,7 +88,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="space-y-6 relative p-6 bg-gray-50 min-h-screen">
-      
+
       {/* 1. Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
@@ -99,14 +105,14 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* 2. Recent Issues Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-visible"> 
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-visible">
         <div className="p-6 border-b border-gray-100 flex justify-between items-center">
           <div>
             <h3 className="text-lg font-bold text-gray-800">Recent Issues</h3>
             <p className="text-sm text-gray-500">Overview of the latest reports filed</p>
           </div>
         </div>
-        
+
         <div className="overflow-x-auto min-h-100">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -127,9 +133,9 @@ const Dashboard: React.FC = () => {
                 </tr>
               ) : (
                 issues.map((issue) => (
-                  <IssueCard 
-                    key={issue.id} 
-                    data={issue} 
+                  <IssueCard
+                    key={issue.id}
+                    data={issue}
                     onDeleteClick={initiateDelete} // Pass the handler down
                   />
                 ))
@@ -138,7 +144,7 @@ const Dashboard: React.FC = () => {
           </table>
         </div>
         <div className="p-4 border-t border-gray-100 text-center">
-          <button className="text-sm text-indigo-600 font-medium hover:text-indigo-800">View All Issues</button>
+          <button onClick={onViewAllIssues} className="text-sm text-indigo-600 font-medium hover:text-indigo-800">View All Issues</button>
         </div>
       </div>
 
@@ -155,13 +161,13 @@ const Dashboard: React.FC = () => {
                 Are you sure you want to delete this issue? This action cannot be undone.
               </p>
               <div className="flex gap-3 w-full">
-                <button 
+                <button
                   onClick={() => setDeleteModal({ show: false, id: null })}
                   className="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-colors"
                 >
                   Cancel
                 </button>
-                <button 
+                <button
                   onClick={handleDeleteConfirm}
                   className="flex-1 px-4 py-2.5 bg-red-600 text-white font-medium rounded-xl hover:bg-red-700 shadow-sm shadow-red-200 transition-colors"
                 >

@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { 
-  LayoutDashboard, 
-  Users, 
-  AlertCircle, 
-  Settings, 
-  Search, 
-  Bell, 
+import {
+  LayoutDashboard,
+  Users,
+  AlertCircle,
+  Settings,
+  Search,
+  Bell,
   Menu,
   LogOut,
   CheckCircle,
@@ -16,15 +16,19 @@ import {
 import Dashboard from '../components/admin/Dashboard';
 import UsersList from '../components/admin/UserList';
 import AllIssues from '../components/admin/AllIssues';
-import SettingsPage from '../components/admin/Settings'; 
+import SettingsPage from '../components/admin/Settings';
+import useLogout from '../hooks/useLogout';
 
 const Admin = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
-
+  const {loading, logout} = useLogout();
+  const handleLogout = async () => {
+    await logout();
+  }
   return (
     <div className="flex h-screen bg-gray-50 font-sans">
-      
+
       {/* --- SIDEBAR --- */}
       <aside className={`${isSidebarOpen ? 'w-64' : 'w-20'} bg-white border-r border-gray-200 transition-all duration-300 flex flex-col fixed h-full z-10`}>
         <div className="h-16 flex items-center justify-center border-b border-gray-100">
@@ -45,11 +49,10 @@ const Admin = () => {
               <li key={item.id}>
                 <button
                   onClick={() => setActiveTab(item.id)}
-                  className={`flex items-center w-full px-3 py-3 rounded-lg transition-colors duration-200 ${
-                    activeTab === item.id 
-                      ? 'bg-indigo-50 text-indigo-700 font-medium' 
+                  className={`flex items-center w-full px-3 py-3 rounded-lg transition-colors duration-200 ${activeTab === item.id
+                      ? 'bg-indigo-50 text-indigo-700 font-medium'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-                  }`}
+                    }`}
                 >
                   <item.icon size={20} />
                   <span className={`ml-3 transition-opacity duration-300 ${!isSidebarOpen && 'opacity-0 w-0 overflow-hidden'}`}>
@@ -70,14 +73,14 @@ const Admin = () => {
               <p className="text-sm font-medium text-gray-700">Admin User</p>
               <p className="text-xs text-gray-500">admin@iitism.ac.in</p>
             </div>
-            <LogOut size={18} className={`ml-auto text-gray-400 hover:text-red-500 cursor-pointer ${!isSidebarOpen && 'hidden'}`} />
+            <LogOut onClick={handleLogout} size={18} className={`ml-auto text-gray-400 hover:text-red-500 cursor-pointer ${!isSidebarOpen && 'hidden'}`} />
           </div>
         </div>
       </aside>
 
       {/* --- MAIN LAYOUT SHELL --- */}
       <div className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-20'}`}>
-        
+
         <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 sticky top-0 z-10">
           <div className="flex items-center gap-4">
             <button onClick={() => setSidebarOpen(!isSidebarOpen)} className="p-2 rounded-md hover:bg-gray-100 text-gray-600">
@@ -103,12 +106,12 @@ const Admin = () => {
         </header>
 
         <main className="p-6 overflow-y-auto bg-gray-50 flex-1">
-          {activeTab === 'dashboard' && <Dashboard />}
+          {activeTab === 'dashboard' && <Dashboard onViewAllIssues={() => setActiveTab('issues')} />}
           {activeTab === 'users' && <UsersList />}
           {activeTab === 'issues' && <AllIssues />}
-          {activeTab === 'settings' && <h1 className='text-center'>Coming Soon...</h1>} 
+          {activeTab === 'settings' && <h1 className='text-center'>Coming Soon...</h1>}
         </main>
-        
+
       </div>
     </div>
   );
