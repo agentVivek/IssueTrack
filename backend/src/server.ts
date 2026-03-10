@@ -7,9 +7,11 @@ import userRoutes from "./routes/userRoutes.js";
 import categoryRoutes from "./routes/categoriesRoutes.js";
 import zoneRoutes from "./routes/zonesRoutes.js";
 import { connectToRedis } from "./database/connectToRedis.js";
+import cookieParser from "cookie-parser"
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/categories', categoryRoutes);

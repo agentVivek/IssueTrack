@@ -12,11 +12,11 @@ export const useSendIssue = () => {
             const formData = new FormData(); //Used instead of JSON. This allows the image file to be sent correctly as binary data.
             formData.append("title", issueData.title);
             formData.append("description", issueData.description);
-            formData.append("category", issueData.category);
-            formData.append("zone", issueData.zone);
+            formData.append("categoryId", issueData.category);
+            formData.append("zoneId", issueData.zone);
             // Append File if it exists
             if (issueData.image) {
-                formData.append("image", issueData.image); 
+                formData.append("imageUrls", issueData.image); 
             }
             const res = await fetch(`/api/issues/send/`, {
 				method: "POST",
